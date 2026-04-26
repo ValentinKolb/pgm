@@ -1,0 +1,17 @@
+# pgm config file. Copy to /etc/pgm/pgm.conf and edit.
+#
+# This file is sourced as a shell snippet. Use the ':=' form so environment
+# variables (set before pgm runs) take precedence over what's set here.
+
+# Host/port shown in connection strings. Set PGM_DB_PORT=6432 if connections
+# should go through a PgBouncer in front of Postgres.
+: "${PGM_DB_HOST:=localhost}"
+: "${PGM_DB_PORT:=5432}"
+
+: "${PGM_SECRETS_DIR:=/root/.pg-app-secrets}"
+: "${PGM_PSQL_CMD:=sudo -u postgres psql}"
+
+# Behavior of `pgm create`. All default to true; set to false to opt out.
+: "${PGM_SAVE_ENV:=true}"
+: "${PGM_PG_STAT_STATEMENTS:=true}"
+: "${PGM_SUGGEST_HBA_CHANGE:=true}"
