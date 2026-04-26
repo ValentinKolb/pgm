@@ -14,6 +14,8 @@ Drops `pgm` into `/usr/local/bin` and copies `pgm.conf.example` to `/etc/pgm/`. 
 
 Requires `bash` 4+, `psql`, `openssl`, and a Unix-socket-trusted Postgres superuser (PostgreSQL 14+).
 
+On RHEL/Fedora/Rocky/Alma, sudo's `secure_path` excludes `/usr/local/bin`, so `sudo pgm` reports "command not found". Either invoke with the full path (`sudo /usr/local/bin/pgm`) or add `/usr/local/bin` to `secure_path` in `/etc/sudoers`.
+
 ## create
 
 Create a new app database with a dedicated owner role. Convention: database is `<app>`, owner role is `<app>_app`.
@@ -22,7 +24,7 @@ Create a new app database with a dedicated owner role. Convention: database is `
 sudo pgm create blog
 ```
 
-Generates a 32-char alphanumeric password, sets schema permissions (`REVOKE ... FROM PUBLIC` + `GRANT ... TO <app>_app`), enables `pg_stat_statements`, and writes credentials to `/root/.pg-app-secrets/<app>.env` (chmod 600).
+Generates a 32-char alphanumeric password, sets schema permissions (`REVOKE ... FROM PUBLIC` + `GRANT ... TO <app>_app`), enables `pg_stat_statements`, and writes credentials to `$HOME/.pg-app-secrets/<app>.env` (chmod 600).
 
 ```
 PG_HOST=localhost
@@ -73,7 +75,7 @@ All settings have env-var overrides. Permanent defaults live in `/etc/pgm/pgm.co
 | --- | --- | --- |
 | `PGM_DB_HOST` | `localhost` | Host shown in connection strings |
 | `PGM_DB_PORT` | `5432` | Port shown in connection strings (set `6432` for PgBouncer URIs) |
-| `PGM_SECRETS_DIR` | `/root/.pg-app-secrets` | Where `.env` files are stored |
+| `PGM_SECRETS_DIR` | `$HOME/.pg-app-secrets` | Where `.env` files are stored |
 | `PGM_PSQL_CMD` | `sudo -u postgres psql` | How to invoke psql with admin rights |
 | `PGM_SAVE_ENV` | `true` | Save `.env` file on `create` |
 | `PGM_PG_STAT_STATEMENTS` | `true` | Enable `pg_stat_statements` on `create` |
@@ -93,11 +95,10 @@ Homebrew Postgres runs as the current user — there is no `postgres` system use
 
 ```sh
 export PGM_PSQL_CMD="psql -d postgres"
-export PGM_SECRETS_DIR="$HOME/.pg-app-secrets"
 pgm create blog
 ```
 
-Drop those exports into `/etc/pgm/pgm.conf` (using `:=`) for permanence.
+Drop the export into `/etc/pgm/pgm.conf` (using `:=`) for permanence.
 
 ### Cloud / managed Postgres (RDS, Supabase, Neon, …)
 

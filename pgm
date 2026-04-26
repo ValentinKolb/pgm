@@ -12,7 +12,7 @@ set -euo pipefail
 
 : "${PGM_DB_HOST:=localhost}"
 : "${PGM_DB_PORT:=5432}"
-: "${PGM_SECRETS_DIR:=/root/.pg-app-secrets}"
+: "${PGM_SECRETS_DIR:=$HOME/.pg-app-secrets}"
 : "${PGM_PSQL_CMD:=sudo -u postgres psql}"
 : "${PGM_SAVE_ENV:=true}"
 : "${PGM_PG_STAT_STATEMENTS:=true}"
@@ -335,7 +335,7 @@ Commands:
 Configuration (environment variables):
   PGM_DB_HOST              Host shown in connection strings (default: localhost)
   PGM_DB_PORT              Port shown in connection strings (default: 5432)
-  PGM_SECRETS_DIR          Where .env files are stored (default: /root/.pg-app-secrets)
+  PGM_SECRETS_DIR          Where .env files are stored (default: $HOME/.pg-app-secrets)
   PGM_PSQL_CMD             Admin psql command (default: sudo -u postgres psql)
   PGM_SAVE_ENV             Save .env file on create (default: true)
   PGM_PG_STAT_STATEMENTS   Enable pg_stat_statements on create (default: true)

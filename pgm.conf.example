@@ -8,7 +8,7 @@
 : "${PGM_DB_HOST:=localhost}"
 : "${PGM_DB_PORT:=5432}"
 
-: "${PGM_SECRETS_DIR:=/root/.pg-app-secrets}"
+: "${PGM_SECRETS_DIR:=$HOME/.pg-app-secrets}"
 : "${PGM_PSQL_CMD:=sudo -u postgres psql}"
 
 # Behavior of `pgm create`. All default to true; set to false to opt out.
