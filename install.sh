@@ -21,10 +21,19 @@ install -m 755 "$tmp/pgm"               "$PREFIX/pgm"
 install -d -m 755                       "$CONFDIR"
 install -m 644 "$tmp/pgm.conf.example"  "$CONFDIR/pgm.conf.example"
 
+# `sudo pgm` only works if pgm is in sudoers' `secure_path`. RHEL/Fedora's
+# default secure_path is `/sbin:/bin:/usr/sbin:/usr/bin`, excluding
+# /usr/local/bin. Drop a symlink in /usr/sbin so `sudo pgm` works anywhere.
+symlink_line=""
+if ln -sf "$PREFIX/pgm" /usr/sbin/pgm 2>/dev/null; then
+    symlink_line="
+  /usr/sbin/pgm  (symlink — so 'sudo pgm' works on RHEL/Fedora)"
+fi
+
 cat <<EOF
 Installed:
   $PREFIX/pgm
-  $CONFDIR/pgm.conf.example
+  $CONFDIR/pgm.conf.example$symlink_line
 
 Run:  pgm help
 EOF

@@ -10,11 +10,9 @@ One database per app, one user per database, password auth. Works with plain Pos
 curl -fsSL https://raw.githubusercontent.com/valentinkolb/pgm/main/install.sh | sudo bash
 ```
 
-Drops `pgm` into `/usr/local/bin` and copies `pgm.conf.example` to `/etc/pgm/`. Then `cp /etc/pgm/pgm.conf.example /etc/pgm/pgm.conf` if you want permanent config overrides. Override install locations with `PGM_PREFIX` / `PGM_CONFDIR` env vars, or pin a tag with `PGM_REF=v1.0.0`.
+Drops `pgm` into `/usr/local/bin`, copies `pgm.conf.example` to `/etc/pgm/`, and adds a symlink at `/usr/sbin/pgm` so `sudo pgm` works on RHEL/Fedora (where `/usr/local/bin` isn't in sudoers' `secure_path`). Then `cp /etc/pgm/pgm.conf.example /etc/pgm/pgm.conf` if you want permanent config overrides. Override install locations with `PGM_PREFIX` / `PGM_CONFDIR`, or pin a tag with `PGM_REF=v1.0.0`.
 
 Requires `bash` 4+, `psql`, `openssl`, and a Unix-socket-trusted Postgres superuser (PostgreSQL 14+).
-
-On RHEL/Fedora/Rocky/Alma, sudo's `secure_path` excludes `/usr/local/bin`, so `sudo pgm` reports "command not found". Either invoke with the full path (`sudo /usr/local/bin/pgm`) or add `/usr/local/bin` to `secure_path` in `/etc/sudoers`.
 
 ## create
 
